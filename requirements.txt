@@ -1,1 +1,6 @@
 python-mpv>=1.0.8
+
+# Build dependencies for standalone packaging with Nuitka
+nuitka>=2.7
+ordered-set>=4.1.0
+zstandard>=0.23.0

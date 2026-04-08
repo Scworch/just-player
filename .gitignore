@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .venv/
+libmpv-2.dll
 build/
 dist/
 *.build/

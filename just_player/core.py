@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 from .settings import MPV_OPTIONS
 
 
 class MpvEngine:
+    _dll_dirs: list[Any] = []
+
     def __init__(
         self,
         wid: int,
@@ -20,8 +24,15 @@ class MpvEngine:
         self._mpv = self._create_player(wid)
 
     def _create_player(self, wid: int) -> Any:
+        self._ensure_local_mpv_path()
         # Lazy import keeps startup overhead low when module is imported.
-        import mpv
+        try:
+            import mpv
+        except OSError as exc:
+            raise RuntimeError(
+                "libmpv DLL not found. Put mpv-2.dll next to run.py "
+                "or into just_player/bin and restart."
+            ) from exc
 
         options = dict(MPV_OPTIONS)
         options["wid"] = str(wid)
@@ -61,6 +72,37 @@ class MpvEngine:
         if isinstance(value, int) and value == 0:
             return True
         return False
+
+    @staticmethod
+    def _ensure_local_mpv_path() -> None:
+        package_dir = Path(__file__).resolve().parent
+        project_root = package_dir.parent
+        extra_dir = os.environ.get("MPV_DLL_DIR", "")
+        candidate_dirs = [
+            str(project_root),
+            str(project_root / "just_player" / "bin"),
+            extra_dir,
+        ]
+        current_path = os.environ.get("PATH", "")
+        found_dll_dir: str | None = None
+        for path in candidate_dirs:
+            if not path:
+                continue
+            p = Path(path)
+            if not p.exists():
+                continue
+            if path not in current_path:
+                current_path = path + os.pathsep + current_path
+            if found_dll_dir is None:
+                for dll_name in ("mpv-2.dll", "libmpv-2.dll", "mpv-1.dll"):
+                    if (p / dll_name).is_file():
+                        found_dll_dir = str(p)
+                        break
+        os.environ["PATH"] = current_path
+        if found_dll_dir:
+            add_dll_dir = getattr(os, "add_dll_directory", None)
+            if callable(add_dll_dir):
+                MpvEngine._dll_dirs.append(add_dll_dir(found_dll_dir))
 
     def load(self, path: str) -> None:
         self._mpv.loadfile(path, "replace")
