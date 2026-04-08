@@ -19,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-Party License Notice
-
-This project uses third-party components with their own licenses:
-
-1) python-mpv (PyPI package: `python-mpv`)
-   License: GPLv2+ OR LGPLv2.1+ (dual-licensed by upstream).
-
-2) libmpv (`mpv-2.dll` / `libmpv-2.dll`)
-   License: depends on the build you ship.
-   Typical options are GPLv2+ or LGPLv2.1+ for libmpv.
-   You must distribute the corresponding upstream license/copyright notices
-   with the DLL build you use.

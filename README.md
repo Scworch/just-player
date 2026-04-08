@@ -70,3 +70,12 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_nuitka.ps1 -OneFile
 ```
 
 Скрипт автоматически добавит `mpv-2.dll`, если DLL лежит в корне проекта.
+
+## License
+
+Проект распространяется под лицензией MIT (см. `LICENSE`).
+
+Third-party notices:
+- `python-mpv`: GPLv2+ OR LGPLv2.1+ (dual license).
+- `libmpv` (`mpv-2.dll` / `libmpv-2.dll`): лицензия зависит от конкретного билда (обычно GPLv2+ или LGPLv2.1+).
+- При распространении DLL добавляйте соответствующие upstream license/copyright notices.
