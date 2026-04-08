@@ -1,0 +1,16 @@
+[project]
+name = "just-player"
+version = "0.1.0"
+description = "Minimal Windows player (Python UI + libmpv decode)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-mpv>=1.0.8",
+]
+
+[project.scripts]
+just-player = "just_player.main:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
